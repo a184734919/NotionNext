@@ -9,20 +9,32 @@ export default function WordCount() {
     countWords()
   })
 
-  return <div id='wordCountWrapper' className='flex justify-center my-auto font-light'>
-    <i className='mr-1 fas fa-file-word my-auto' /> <span className='hidden md:block'>本文字数</span> <strong id='wordCount'>0</strong> &nbsp;|&nbsp; <i className='mr-1 fas fa-clock my-auto' /> <span className='hidden md:block'>阅读时长 ≈</span> <strong id='readTime'>0</strong> 分钟
-  </div>
+  return (
+    <div
+      id="wordCountWrapper"
+      className="flex justify-center my-auto font-light"
+    >
+      <i className="mr-1 fas fa-file-word my-auto" />
+      <strong id="wordCount">0</strong> &nbsp;|&nbsp;{' '}
+      <i className="mr-1 fas fa-clock my-auto" />{' '}
+      <span className="hidden md:block">阅读时长 ≈</span>{' '}
+      <strong id="readTime">0</strong> 分钟
+    </div>
+  )
 }
 
 /**
  * 更新字数统计和阅读时间
  */
 function countWords() {
-  const articleText = deleteHtmlTag(document.getElementById('notion-article')?.innerHTML)
+  const articleText = deleteHtmlTag(
+    document.getElementById('notion-article')?.innerHTML
+  )
   const wordCount = fnGetCpmisWords(articleText)
   // 阅读速度 300-500每分钟
   document.getElementById('wordCount').innerHTML = wordCount
-  document.getElementById('readTime').innerHTML = Math.floor(wordCount / 400) + 1
+  document.getElementById('readTime').innerHTML =
+    Math.floor(wordCount / 400) + 1
   const wordCountWrapper = document.getElementById('wordCountWrapper')
   wordCountWrapper.classList.remove('hidden')
 }
@@ -32,7 +44,7 @@ function deleteHtmlTag(str) {
   if (!str) {
     return ''
   }
-  str = str.replace(/<[^>]+>|&[^>]+;/g, '').trim()// 去掉所有的html标签和&nbsp;之类的特殊符合
+  str = str.replace(/<[^>]+>|&[^>]+;/g, '').trim() // 去掉所有的html标签和&nbsp;之类的特殊符合
   return str
 }
 
@@ -50,8 +62,6 @@ function fnGetCpmisWords(str) {
     str = str.replace(/m+/g, '*')
     str = str.replace(/龘+/g, '')
     sLen = str.length
-  } catch (e) {
-
-  }
+  } catch (e) {}
   return sLen
 }
